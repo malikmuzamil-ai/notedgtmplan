@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noted — Go-To-Market Plan V2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F5F0;
+  --ink:#121212;
+  --indigo:#5B50E3;
+  --lavender:#E6E3FA;
+  --lav-soft:#EFEDFB;
+  --black:#0E0E0E;
+  --muted:#6E6A63;
+  --line:#DEDAD1;
+  --white:#FFFFFF;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.serif{font-family:'Playfair Display',serif}
+
+/* topbar */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-bottom:1px solid var(--line)}
+.logo{font-family:'Playfair Display',serif;font-weight:800;font-size:22px}
+.topbar .mono{color:var(--muted)}
+
+/* hero */
+.hero{padding:64px 0 48px}
+.hero .mono{color:var(--indigo);margin-bottom:20px;display:block}
+.hero h1{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(38px,6vw,68px);line-height:1.05;letter-spacing:-.01em;max-width:18ch}
+.hero h1 em{color:var(--indigo)}
+.hero .sub{margin-top:24px;max-width:54ch;font-size:17px;color:var(--muted)}
+.hero-meta{display:flex;gap:36px;margin-top:36px;flex-wrap:wrap}
+.hero-meta div .mono{color:var(--muted);display:block;margin-bottom:5px}
+.hero-meta div strong{font-weight:600;font-size:14.5px}
+
+/* TABS */
+.tabbar-outer{position:sticky;top:0;background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line);z-index:50}
+.tabbar{display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.tabbar::-webkit-scrollbar{display:none}
+.tab-btn{appearance:none;background:none;border:none;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:18px 18px;white-space:nowrap;border-bottom:2.5px solid transparent;transition:color .2s,border-color .2s;font-weight:500}
+.tab-btn .tn{color:var(--indigo);margin-right:8px;font-weight:600}
+.tab-btn:hover{color:var(--ink)}
+.tab-btn.active{color:var(--ink);border-bottom-color:var(--indigo);font-weight:600}
+.panel{display:none;padding:64px 0 88px;animation:fade .35s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.panel{animation:none}}
+
+/* headings */
+.sec-head{display:flex;align-items:baseline;gap:22px;margin-bottom:14px}
+.sec-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:var(--lavender);line-height:1}
+.sec-head h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,3.6vw,40px);line-height:1.1}
+.sec-head h2 em{color:var(--indigo)}
+.kicker{color:var(--indigo);display:block;margin-bottom:12px}
+.lede{font-size:17.5px;max-width:60ch;color:var(--muted);margin-bottom:40px}
+h3{font-family:'Playfair Display',serif;font-size:23px;font-weight:700;margin:42px 0 12px}
+h4{font-size:15px;font-weight:700;margin:24px 0 8px}
+p{max-width:66ch;margin-bottom:13px}
+
+/* decision object */
+.decision{background:var(--white);border:1.5px solid var(--ink);border-radius:12px;padding:24px 26px;margin:30px 0;max-width:760px;box-shadow:5px 5px 0 var(--lavender)}
+.decision .d-top{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:100px;font-weight:600}
+.tag.indigo{background:var(--indigo);color:#fff}
+.tag.lav{background:var(--lavender);color:var(--indigo)}
+.tag.ghost{border:1px solid var(--line);color:var(--muted)}
+.decision .d-body{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;line-height:1.35;margin-bottom:8px}
+.decision .d-why{font-size:13.5px;color:var(--muted)}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;margin:22px 0;background:var(--white);border:1px solid var(--line);font-size:14px}
+.tbl th{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;text-align:left;padding:13px 15px;background:var(--ink);color:var(--cream);font-weight:500}
+.tbl td{padding:13px 15px;border-top:1px solid var(--line);vertical-align:top}
+.tbl tr.hl td{background:var(--lav-soft);font-weight:600}
+.tbl .sm{font-size:12.5px;color:var(--muted)}
+
+/* cards */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:26px 0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:26px 0}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:24px}
+.card .mono{color:var(--indigo);display:block;margin-bottom:10px}
+.card h4{margin:0 0 8px;font-size:15.5px}
+.card p{font-size:14px;color:var(--muted);margin-bottom:0}
+.card ul{font-size:14px;padding-left:18px;margin-top:8px}
+.card ul li{margin-bottom:7px}
+.card.dark{background:var(--black);color:var(--cream);border-color:var(--black)}
+.card.dark p,.card.dark ul{color:#C9C5BC}
+.card.dark .mono{color:#A79FF0}
+.card.indigo{background:var(--indigo);color:#fff;border-color:var(--indigo)}
+.card.indigo .mono{color:#D8D4F9}
+.card.indigo p{color:#E8E6FB}
+
+/* band */
+.band{background:var(--black);color:var(--cream);padding:56px 40px;margin:44px 0;border-radius:14px}
+.band .serif-line{font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,32px);font-weight:700;line-height:1.3;max-width:26ch}
+.band .serif-line em{color:#A79FF0}
+.band .mono{color:#A79FF0;display:block;margin-bottom:18px}
+.band p{color:#B9B5AC;margin-top:16px;max-width:58ch}
+
+/* lists */
+ul.flat{list-style:none;margin:14px 0}
+ul.flat li{padding:12px 0 12px 28px;border-bottom:1px solid var(--line);position:relative;max-width:72ch}
+ul.flat li::before{content:"→";position:absolute;left:0;color:var(--indigo);font-weight:600}
+ol.steps{counter-reset:s;list-style:none;margin:14px 0}
+ol.steps li{counter-increment:s;padding:15px 0 15px 52px;border-bottom:1px solid var(--line);position:relative;max-width:72ch}
+ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:15px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--indigo);font-weight:600;border:1px solid var(--lavender);border-radius:6px;padding:3px 7px;background:var(--white)}
+ol.steps li strong{display:block;margin-bottom:2px}
+ol.steps li span{font-size:14px;color:var(--muted)}
+
+/* callout */
+.note{border-left:3px solid var(--indigo);background:var(--lav-soft);padding:16px 20px;border-radius:0 10px 10px 0;margin:22px 0;max-width:720px;font-size:14.5px}
+.note strong{color:var(--indigo)}
+
+/* timeline */
+.timeline{margin:26px 0;border:1px solid var(--line);background:var(--white);border-radius:12px;overflow:hidden}
+.trow{display:grid;grid-template-columns:150px 1fr;border-top:1px solid var(--line)}
+.trow:first-child{border-top:none}
+.trow .tw{background:var(--lav-soft);padding:16px 18px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo);font-weight:600}
+.trow .tc{padding:16px 20px;font-size:14.5px}
+.trow .tc strong{display:block;margin-bottom:3px}
+.trow .tc span{color:var(--muted);font-size:13.5px}
+
+/* pricing */
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:30px 0;align-items:start}
+.price-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:28px 24px}
+.price-card.feature{background:var(--black);color:var(--cream);border-color:var(--black);transform:scale(1.03)}
+.price-card .mono{color:var(--muted);display:block;margin-bottom:12px}
+.price-card.feature .mono{color:#A79FF0}
+.price-card .price{font-family:'Playfair Display',serif;font-size:46px;font-weight:800}
+.price-card .price s{font-size:20px;color:var(--muted);font-weight:600;margin-right:8px}
+.price-card.feature .price s{color:#7a766e}
+.price-card .per{font-size:12px;color:var(--muted);margin-bottom:16px}
+.price-card.feature .per{color:#8f8b83}
+.price-card ul{list-style:none;font-size:13.5px}
+.price-card ul li{padding:7px 0 7px 22px;position:relative}
+.price-card ul li::before{content:"✓";position:absolute;left:0;color:var(--indigo);font-weight:700}
+.price-card.feature ul li::before{color:#A79FF0}
+.founder{font-family:'IBM Plex Mono',monospace;font-size:10.5px;background:var(--lavender);color:var(--indigo);display:inline-block;padding:5px 12px;border-radius:100px;margin-top:14px;font-weight:600;letter-spacing:.06em}
+.price-card.feature .founder{background:#2a2a2a;color:#A79FF0}
+.pop-badge{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--indigo);color:#fff;padding:5px 12px;border-radius:100px;display:inline-block;margin-bottom:14px;font-weight:600}
+
+/* metrics */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);border:1px solid var(--line);margin:26px 0}
+.metric{background:var(--white);padding:22px 18px}
+.metric .mono{color:var(--muted);display:block;margin-bottom:8px}
+.metric .big{font-family:'Playfair Display',serif;font-size:32px;font-weight:800;color:var(--indigo);line-height:1}
+.metric .sub{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* ICP scorecard */
+.scorecard{background:var(--white);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:26px 0;max-width:760px}
+.scorecard .sc-head{background:var(--indigo);color:#fff;padding:16px 22px;display:flex;justify-content:space-between;align-items:center}
+.scorecard .sc-head .serif{font-size:18px;font-weight:700}
+.sc-row{display:flex;gap:14px;padding:14px 22px;border-top:1px solid var(--line);align-items:flex-start;font-size:14.5px}
+.sc-row .box{width:20px;height:20px;border:2px solid var(--indigo);border-radius:5px;flex-shrink:0;margin-top:2px}
+.sc-foot{padding:14px 22px;border-top:1px solid var(--line);background:var(--lav-soft);font-size:13.5px}
+.sc-foot strong{color:var(--indigo)}
+
+/* post example */
+.post-ex{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:18px 0;max-width:640px;font-size:14.5px}
+.post-ex .ph{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.post-ex .avatar{width:38px;height:38px;border-radius:100px;background:var(--lavender);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--indigo);font-size:14px}
+.post-ex .ph strong{display:block;font-size:14px}
+.post-ex .ph span{font-size:12px;color:var(--muted)}
+.post-ex .pb{white-space:pre-line;line-height:1.6}
+
+footer{padding:56px 0;text-align:center;border-top:1px solid var(--line);margin-top:24px}
+footer .serif{font-size:28px;font-weight:700}
+footer .mono{color:var(--muted);margin-top:14px;display:block}
+
+@media (max-width:820px){
+  .grid2,.grid3,.pricing{grid-template-columns:1fr}
+  .price-card.feature{transform:none}
+  .metrics{grid-template-columns:1fr 1fr}
+  .trow{grid-template-columns:1fr}
+  .sec-num{font-size:34px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="logo">noted.</div>
+    <div class="mono">GTM Plan · Confidential · V2.0 · July 2026</div>
+  </div>
+
+  <div class="hero">
+    <span class="mono">Go-To-Market Plan · Version 2</span>
+    <h1>The First 100 <em class="serif">decide</em> everything after.</h1>
+    <p class="sub">Proof before reach. Reach before category. This plan takes Noted from private beta to the owner of the decision layer.</p>
+    <div class="hero-meta">
+      <div><span class="mono">Owner</span><strong>Malik Muzamil</strong></div>
+      <div><span class="mono">Horizon</span><strong>90 Days · 3 Phases</strong></div>
+      <div><span class="mono">North Star</span><strong>100 Validated Believers</strong></div>
+      <div><span class="mono">Ad Spend</span><strong>$0 Until PMF</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB BAR -->
+<div class="tabbar-outer">
+  <div class="wrap">
+    <nav class="tabbar" role="tablist">
+      <button class="tab-btn active" data-tab="t1" role="tab"><span class="tn">01</span>Strategy</button>
+      <button class="tab-btn" data-tab="t2" role="tab"><span class="tn">02</span>ICP &amp; Market</button>
+      <button class="tab-btn" data-tab="t3" role="tab"><span class="tn">03</span>The First 100</button>
+      <button class="tab-btn" data-tab="t4" role="tab"><span class="tn">04</span>Brand &amp; Founder</button>
+      <button class="tab-btn" data-tab="t5" role="tab"><span class="tn">05</span>Content Engine</button>
+      <button class="tab-btn" data-tab="t6" role="tab"><span class="tn">06</span>Pricing</button>
+      <button class="tab-btn" data-tab="t7" role="tab"><span class="tn">07</span>Metrics &amp; Timeline</button>
+      <button class="tab-btn" data-tab="t8" role="tab"><span class="tn">08</span>Risks</button>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- TAB 1: STRATEGY -->
+<div class="panel active" id="t1">
+  <span class="mono kicker">Tab 01</span>
+  <div class="sec-head"><span class="sec-num serif">01</span><h2>Strategy on <em>one page.</em></h2></div>
+  <p class="lede">Most launches chase reach before proof. Noted does the opposite. Proof first. Reach second. Category third.</p>
+
+  <div class="grid3">
+    <div class="card">
+      <span class="mono">Phase 1 · Weeks 1–6</span>
+      <h4>Validate with 100</h4>
+      <p>Build a waitlist of 100 hand-picked agency owners. Pitch them personally from Malik's profile. Collect feedback weekly. Nothing scales until they say yes.</p>
+    </div>
+    <div class="card">
+      <span class="mono">Phase 2 · Weeks 3–8</span>
+      <h4>Launch the Brand Voice</h4>
+      <p>A dedicated Noted account carries the category. Malik's profile supports it with one post weekly. Two voices, one message.</p>
+    </div>
+    <div class="card">
+      <span class="mono">Phase 3 · Weeks 5–13</span>
+      <h4>Run the Content Engine</h4>
+      <p>Awareness-staged content, ramping from 2 to 4 posts weekly. Problem first. Product last. Images, carousels, and cheatsheets carry the proof.</p>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="d-top"><span class="tag indigo">Decision</span><span class="tag lav">Strategy</span><span class="tag ghost">Permanent</span></div>
+    <div class="d-body">We do not launch to the market. We launch to 100 named people.</div>
+    <div class="d-why">Logged by Malik Muzamil · Every activity below serves this decision until 100 is reached.</div>
+  </div>
+
+  <h3>The frameworks behind this plan</h3>
+  <ul class="flat">
+    <li><strong>Sean Ellis PMF Survey</strong> validates the 100. The test: would 40%+ be very disappointed without Noted?</li>
+    <li><strong>Eugene Schwartz's 5 Stages of Awareness</strong> sequences the content. Problem-aware content ships before product content.</li>
+    <li><strong>April Dunford's Positioning</strong> anchors every message. Noted is the decision layer. Never the scheduling tool.</li>
+    <li><strong>Van Westendorp + Charm Pricing</strong> shapes the price points. Details in the Pricing tab.</li>
+  </ul>
+
+  <div class="band">
+    <span class="mono">The core insight</span>
+    <div class="serif-line">Every LinkedIn tool fights over the content layer. Nobody has claimed the <em>decision layer.</em></div>
+    <p>Taplio schedules. Planable approves. ClickUp tracks tasks. Not one remembers what the client decided three weeks ago. That gap is the entire business.</p>
+  </div>
+</div>
+
+<!-- TAB 2: ICP -->
+<div class="panel" id="t2">
+  <span class="mono kicker">Tab 02</span>
+  <div class="sec-head"><span class="sec-num serif">02</span><h2>ICP &amp; <em>market.</em></h2></div>
+  <p class="lede">If we cannot describe the buyer in one sentence, we cannot find them. Here is that sentence, then the proof behind it.</p>
+
+  <div class="decision">
+    <div class="d-top"><span class="tag indigo">Decision</span><span class="tag lav">ICP</span><span class="tag ghost">Permanent</span></div>
+    <div class="d-body">Noted is for LinkedIn agency owners managing 3+ clients whose brain is still the system.</div>
+    <div class="d-why">Logged by Malik Muzamil · One sentence. Every pitch, post, and feature is tested against it.</div>
+  </div>
+
+  <h3>The primary buyer, in full</h3>
+  <div class="grid2">
+    <div class="card">
+      <span class="mono">Who they are</span>
+      <h4>The Overloaded Agency Owner</h4>
+      <ul>
+        <li>Founder-operator, team of 0 to 4</li>
+        <li>Runs 3 to 15 LinkedIn client accounts</li>
+        <li>Makes $3k to $25k monthly from retainers</li>
+        <li>1 to 5 years in. Past hustle, hitting a ceiling.</li>
+        <li>US, UK, Canada, Australia, Germany, UAE</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="mono">How they think</span>
+      <h4>Systems believer, tool buyer</h4>
+      <ul>
+        <li>Already spends $100 to $400 monthly on tools</li>
+        <li>Uses Notion or ClickUp, Slack or WhatsApp, Canva</li>
+        <li>Reads Hormozi, Nicolas Cole, Justin Welsh</li>
+        <li>Knows they are the bottleneck. Says it out loud.</li>
+        <li>Uses AI for drafts. Wants an ops layer, not a writer.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>A day in their life</h3>
+  <p>Monday, 9am. Three WhatsApp threads, two emails, one call recording. All contain client feedback from last week. None of it lives anywhere. They spend 30 minutes reconstructing decisions from memory. Then they brief the writer from that shaky memory. By Thursday, the client asks why the tone changed. It did not change. The decision got lost.</p>
+  <p>That Monday is the product's reason to exist. Every message we write points at it.</p>
+
+  <h3>The qualifying scorecard</h3>
+  <p>Every prospect gets scored before entering the 100. No exceptions, including friends.</p>
+  <div class="scorecard">
+    <div class="sc-head"><span class="serif">ICP Fit Score</span><span class="mono">Pass = 4 of 5</span></div>
+    <div class="sc-row"><div class="box"></div><div><strong>Manages 3+ LinkedIn clients right now.</strong> Verified from profile, content, or conversation.</div></div>
+    <div class="sc-row"><div class="box"></div><div><strong>Has visible pain signals.</strong> Posted or commented about feedback chaos, approvals, or client churn.</div></div>
+    <div class="sc-row"><div class="box"></div><div><strong>Already pays for tools.</strong> Mentions Taplio, Notion, ClickUp, Planable, or similar.</div></div>
+    <div class="sc-row"><div class="box"></div><div><strong>Active weekly on LinkedIn.</strong> Dead accounts give dead feedback.</div></div>
+    <div class="sc-row"><div class="box"></div><div><strong>Owns the client relationship.</strong> Founder, lead strategist, or account owner. Not a junior executor.</div></div>
+    <div class="sc-foot"><strong>4 or 5 checks:</strong> invite to the 100. <strong>3 checks:</strong> overflow list. <strong>Under 3:</strong> pass, politely.</div>
+  </div>
+
+  <h3>Pain inventory, ranked</h3>
+  <table class="tbl">
+    <tr><th>Pain</th><th>Severity</th><th>How often</th></tr>
+    <tr class="hl"><td>Feedback scattered across 6 places. Nothing lives anywhere.</td><td>10/10</td><td class="sm">Daily</td></tr>
+    <tr class="hl"><td>Nobody knows what was decided last week. Brain is the system.</td><td>10/10</td><td class="sm">Weekly rework</td></tr>
+    <tr><td>Cannot scale past 4 to 5 clients without breakage</td><td>9/10</td><td class="sm">Revenue ceiling</td></tr>
+    <tr><td>Client feels disorganization even when the work is good</td><td>9/10</td><td class="sm">Silent churn trigger</td></tr>
+    <tr><td>Briefing writers and designers takes 20 minutes per client weekly</td><td>8/10</td><td class="sm">Time drain</td></tr>
+    <tr><td>Onboarding reinvented for every new client</td><td>7/10</td><td class="sm">Inconsistency</td></tr>
+  </table>
+
+  <h3>Buying triggers · when they say yes fastest</h3>
+  <ul class="flat">
+    <li>Just lost a client who said "it felt disorganized"</li>
+    <li>Just onboarded a new client and chaos started day one</li>
+    <li>Hit 5+ clients and realized everything is manual</li>
+    <li>Just hired their first team member with no system to brief them</li>
+    <li>Just got blindsided by a "we need to discuss direction" call</li>
+  </ul>
+
+  <div class="card dark" style="margin:28px 0">
+    <span class="mono">Anti-ICP · We say no to</span>
+    <p>Solo creators growing their own brand. Agencies over 50 people. In-house B2B content teams. LinkedIn coaches. Automation-first agencies wanting mass DMs. They dilute the category and churn fast.</p>
+  </div>
+
+  <h3>Market size</h3>
+  <table class="tbl">
+    <tr><th>Layer</th><th>Estimate</th><th>What it means</th></tr>
+    <tr><td>Total addressable</td><td>80,000–150,000</td><td class="sm">English-speaking LinkedIn freelancers and agency owners globally</td></tr>
+    <tr><td>Serviceable</td><td>20,000–40,000</td><td class="sm">Managing 3+ clients with an active tool budget</td></tr>
+    <tr class="hl"><td>Immediately addressable</td><td>12,000–25,000</td><td class="sm">Actively feeling feedback-to-decision chaos right now</td></tr>
+  </table>
+  <p style="font-size:14px;color:var(--muted)">The first 100 come from the bottom row only. Warmest pain, fastest yes.</p>
+</div>
+
+<!-- TAB 3: FIRST 100 -->
+<div class="panel" id="t3">
+  <span class="mono kicker">Tab 03 · Phase 1 · Weeks 1–6</span>
+  <div class="sec-head"><span class="sec-num serif">03</span><h2>The First 100. <em>Validation sprint.</em></h2></div>
+  <p class="lede">Why 100? Because 100 real conversations beat 10,000 anonymous signups. This list is a research asset, not a lead list.</p>
+
+  <div class="decision">
+    <div class="d-top"><span class="tag indigo">Decision</span><span class="tag lav">Waitlist</span><span class="tag ghost">This Quarter</span></div>
+    <div class="d-body">The waitlist is capped at 100. Scarcity is the strategy, not a constraint.</div>
+    <div class="d-why">Logged by Malik Muzamil · A public cap creates urgency and makes each spot feel earned.</div>
+  </div>
+
+  <h3>Step 1 · Build the list from Malik's profile</h3>
+  <p>All recruiting happens from Malik Muzamil's personal profile. People buy early products from founders, not brands. The scorecard in Tab 02 filters every name.</p>
+
+  <h4>Where the 100 come from</h4>
+  <ol class="steps">
+    <li><strong>Comment sections of competitor content</strong><span>People commenting on Taplio and LinkedGood posts have the exact problem. Mine daily.</span></li>
+    <li><strong>Pain-signal search</strong><span>Search LinkedIn for phrases like "client feedback WhatsApp" and "agency onboarding chaos".</span></li>
+    <li><strong>Agency communities</strong><span>Slack groups, LinkedIn creator communities, freelance collectives. Give value for two weeks first.</span></li>
+    <li><strong>Second-degree referrals</strong><span>Every yes gets asked: "Who else runs an agency like yours?"</span></li>
+  </ol>
+
+  <h3>Step 2 · The two-week pitch sprint</h3>
+  <p>Once the list exists, pitch all 100 within 14 days. Momentum matters. A slow drip kills urgency.</p>
+
+  <div class="timeline">
+    <div class="trow"><div class="tw">Days 1–3</div><div class="tc"><strong>Warm-up, no pitch</strong><span>Engage with 3 posts per prospect. Meaningful comments only. Get recognized before appearing in their inbox.</span></div></div>
+    <div class="trow"><div class="tw">Days 4–10</div><div class="tc"><strong>Personal pitch wave · 15 per day</strong><span>Reference their specific pain post. One question, not a pitch: "What happens to client feedback between Monday's call and next week?"</span></div></div>
+    <div class="trow"><div class="tw">Days 11–14</div><div class="tc"><strong>Follow-up and close</strong><span>One follow-up per non-responder. Offer the spot plus founding pricing locked forever. Close the list publicly at 100.</span></div></div>
+  </div>
+
+  <div class="note"><strong>The pitch never sells the tool.</strong> It sells the spot: early access, founding pricing locked forever, and a direct line to the team building for them.</div>
+
+  <h3>Step 3 · The engagement and feedback loop</h3>
+  <div class="grid2">
+    <div class="card">
+      <span class="mono">Weekly · Build Updates</span>
+      <h4>The Noted Build Log</h4>
+      <p>Every Friday: what shipped, what broke, one screenshot, one question. Ends with a reply prompt. Replies are the metric, not opens.</p>
+    </div>
+    <div class="card">
+      <span class="mono">Biweekly · Deep Feedback</span>
+      <h4>15-Minute Founder Calls</h4>
+      <p>Five calls per week, rotating through the list. Watch them react to the Decision object. Log every friction point.</p>
+    </div>
+    <div class="card">
+      <span class="mono">Ongoing · Micro-Surveys</span>
+      <h4>One-Question Polls</h4>
+      <p>Embedded in updates. "Which hurts more: lost feedback or slow approvals?" Each answer sharpens roadmap and messaging.</p>
+    </div>
+    <div class="card indigo">
+      <span class="mono">Week 6 · The Gate</span>
+      <h4>Sean Ellis PMF Survey</h4>
+      <p>"How disappointed would you be if Noted disappeared?" 40%+ very disappointed means go. Below 25% means rework before growth.</p>
+    </div>
+  </div>
+
+  <h3>What the 100 must produce</h3>
+  <div class="metrics">
+    <div class="metric"><span class="mono">By week 6</span><div class="big">50</div><div class="sub">Members, toward the 100 cap</div></div>
+    <div class="metric"><span class="mono">Pitch reply rate</span><div class="big">20%+</div><div class="sub">Personal outreach responses</div></div>
+    <div class="metric"><span class="mono">Feedback calls</span><div class="big">18+</div><div class="sub">Completed by week 6</div></div>
+    <div class="metric"><span class="mono">PMF signal</span><div class="big">40%</div><div class="sub">"Very disappointed" threshold</div></div>
+  </div>
+</div>
+
+<!-- TAB 4: BRAND + FOUNDER -->
+<div class="panel" id="t4">
+  <span class="mono kicker">Tab 04 · Phase 2 · Weeks 3–8</span>
+  <div class="sec-head"><span class="sec-num serif">04</span><h2>Brand account &amp; <em>founder voice.</em></h2></div>
+  <p class="lede">Two accounts, two jobs, one message. The brand builds the category. Malik builds the trust.</p>
+
+  <div class="decision">
+    <div class="d-top"><span class="tag indigo">Decision</span><span class="tag lav">Brand</span><span class="tag ghost">Permanent</span></div>
+    <div class="d-body">The brand account carries the content load. Malik posts exactly once per week.</div>
+    <div class="d-why">Logged by Malik Muzamil · Malik's audience is not ICP-heavy yet. His leverage is outreach and authenticity, not volume.</div>
+  </div>
+
+  <h3>The two-account system</h3>
+  <div class="grid2">
+    <div class="card dark">
+      <span class="mono">Noted Account · The Ambassador</span>
+      <h4>Category and authority · 2–4 posts weekly</h4>
+      <ul>
+        <li>Owns the decision layer vocabulary</li>
+        <li>All formats live here: text, images, carousels, cheatsheets</li>
+        <li>Never posts generic LinkedIn tips. Ever.</li>
+        <li>Becomes the citation source for the niche</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="mono">Malik's Profile · The Founder</span>
+      <h4>Trust and recruitment · 1 post weekly</h4>
+      <ul>
+        <li>One founder post every week. No more, no less.</li>
+        <li>Personal outreach engine for the 100</li>
+        <li>Reshares brand content with a personal take</li>
+        <li>Grows ICP followers through daily comments</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Malik's one post per week</h3>
+  <p>Low volume, high honesty. Founder content converts through vulnerability, not frequency. The single weekly post alternates between two lanes.</p>
+  <div class="grid2">
+    <div class="card">
+      <span class="mono">Odd weeks · The Build Log Post</span>
+      <h4>What building Noted taught me this week</h4>
+      <p>One lesson, one struggle, or one user conversation. Ends with a soft mention of the waitlist. Curiosity does the selling.</p>
+    </div>
+    <div class="card">
+      <span class="mono">Even weeks · The Conviction Post</span>
+      <h4>Why the decision layer exists</h4>
+      <p>A story from a real agency conversation. Names the pain, reframes it, credits the category. Tags the Noted account.</p>
+    </div>
+  </div>
+
+  <h4>Example founder post, ready to adapt</h4>
+  <div class="post-ex">
+    <div class="ph"><div class="avatar">MM</div><div><strong>Malik Muzamil</strong><span>Building Noted · The decision layer for LinkedIn agencies</span></div></div>
+    <div class="pb">I asked 14 agency owners the same question this week.
+
+"What happens to client feedback after the Monday call?"
+
+12 of them said some version of: "I try to remember it."
+
+Twelve.
+
+These are people running $10k+ per month in retainers.
+And their entire system is memory.
+
+That answer is why I'm building Noted.
+
+We're letting 100 agency owners in before anyone else.
+Comment DECISION if you want the details.</div>
+  </div>
+  <div class="note"><strong>Why this works with a small audience:</strong> it needs zero reach to convert. One agency owner seeing it is one qualified conversation. The post doubles as an outreach opener.</div>
+
+  <h3>Brand account setup, done once and done right</h3>
+  <ol class="steps">
+    <li><strong>Name and tagline</strong><span>"Noted" with: Stop running your agency from memory.</span></li>
+    <li><strong>Banner</strong><span>The Decision object UI on the cream and indigo brand canvas. Instantly recognizable.</span></li>
+    <li><strong>About section</strong><span>The positioning statement, word for word. The decision-first operating system for LinkedIn agencies.</span></li>
+    <li><strong>Featured section</strong><span>Waitlist link, the "6 Decision Failures" lead magnet, and the best-performing post.</span></li>
+    <li><strong>First 10 posts pre-written</strong><span>Never launch an empty account. Ten posts queued before the first ships.</span></li>
+  </ol>
+
+  <h3>The daily loop between the two accounts</h3>
+  <ul class="flat">
+    <li>Brand posts get a personal take from Malik within 24 hours. Malik's posts tag the brand.</li>
+    <li>Malik comments daily on 10 agency-owner posts. The brand comments on 5 more.</li>
+    <li>Every waitlist member who posts about Noted gets reshared by the brand with commentary.</li>
+    <li>New ICP-fit followers of either account get one question in DMs. Zero pitch.</li>
+  </ul>
+</div>
+
+<!-- TAB 5: CONTENT -->
+<div class="panel" id="t5">
+  <span class="mono kicker">Tab 05 · Phase 3 · Weeks 5–13</span>
+  <div class="sec-head"><span class="sec-num serif">05</span><h2>The content <em>engine.</em></h2></div>
+  <p class="lede">Content follows the buyer's awareness, not our excitement. We meet them at the problem and walk them to the product.</p>
+
+  <h3>Framework: the five stages of awareness</h3>
+  <table class="tbl">
+    <tr><th>Stage</th><th>Reader's mindset</th><th>Content job</th><th>Weeks 1–4</th><th>Weeks 5–13</th></tr>
+    <tr><td><strong>Unaware</strong></td><td class="sm">"Chaos is just agency life."</td><td class="sm">Name the invisible cost</td><td>20%</td><td>10%</td></tr>
+    <tr class="hl"><td><strong>Problem-aware</strong></td><td class="sm">"Client feedback keeps getting lost."</td><td class="sm">Agitate and validate the pain</td><td>50%</td><td>30%</td></tr>
+    <tr><td><strong>Solution-aware</strong></td><td class="sm">"Maybe I need a system, not memory."</td><td class="sm">Teach the decision layer concept</td><td>20%</td><td>30%</td></tr>
+    <tr><td><strong>Product-aware</strong></td><td class="sm">"What exactly is Noted?"</td><td class="sm">Demo, proof, beta stories</td><td>10%</td><td>20%</td></tr>
+    <tr><td><strong>Most aware</strong></td><td class="sm">"Should I join the waitlist?"</td><td class="sm">Founding offer, scarcity, social proof</td><td>0%</td><td>10%</td></tr>
+  </table>
+
+  <div class="decision">
+    <div class="d-top"><span class="tag indigo">Decision</span><span class="tag lav">Content</span><span class="tag ghost">This Quarter</span></div>
+    <div class="d-body">Weeks 1 to 4 are problem-awareness only. No product screenshots before week 5.</div>
+    <div class="d-why">Logged by Malik Muzamil · Selling a category before selling a tool. Product content lands harder on a warmed audience.</div>
+  </div>
+
+  <h3>The cadence ramp</h3>
+  <div class="timeline">
+    <div class="trow"><div class="tw">Weeks 1–2</div><div class="tc"><strong>2 brand posts weekly + 1 founder post</strong><span>Problem-awareness text and image posts. Test hooks. Find what makes agency owners comment "this is me".</span></div></div>
+    <div class="trow"><div class="tw">Weeks 3–4</div><div class="tc"><strong>3 brand posts weekly + 1 founder post</strong><span>Add one carousel. Double down on the two highest-comment hooks so far.</span></div></div>
+    <div class="trow"><div class="tw">Weeks 5–8</div><div class="tc"><strong>4 brand posts weekly + 1 founder post</strong><span>Add cheatsheets. First product-aware carousels ship. Waitlist CTA appears once weekly.</span></div></div>
+    <div class="trow"><div class="tw">Weeks 9–13</div><div class="tc"><strong>4 brand posts weekly + 1 founder post</strong><span>Beta user story images, PMF proof carousels, founding pricing countdown. Launch built on case study #1.</span></div></div>
+  </div>
+
+  <h3>The weekly rhythm at full cadence</h3>
+  <table class="tbl">
+    <tr><th>Day</th><th>Account</th><th>Format</th><th>Job</th></tr>
+    <tr><td><strong>Monday</strong></td><td class="sm">Noted</td><td>Short text post</td><td class="sm">Decision failure. Names one specific pain. High resonance opener.</td></tr>
+    <tr><td><strong>Tuesday</strong></td><td class="sm">Noted</td><td>Carousel</td><td class="sm">The decision layer concept. One idea, fully developed slide by slide.</td></tr>
+    <tr><td><strong>Wednesday</strong></td><td class="sm">Malik</td><td>Founder post (text)</td><td class="sm">The week's single founder post. Build log or conviction, alternating.</td></tr>
+    <tr><td><strong>Thursday</strong></td><td class="sm">Noted</td><td>Cheatsheet or image post</td><td class="sm">Save-worthy reference or a product proof visual. The Decision object is the hero.</td></tr>
+    <tr><td><strong>Friday</strong></td><td class="sm">Noted</td><td>Engagement post</td><td class="sm">Poll or sharp opinion. Invites agency owners to self-identify.</td></tr>
+  </table>
+
+  <h3>The four brand formats, all on the Noted account</h3>
+  <div class="grid2">
+    <div class="card">
+      <span class="mono">Format 1 · Text posts</span>
+      <h4>Decision Failure Posts</h4>
+      <p>Short, punchy, ICP-specific. Hook plus pain plus reframe. Mondays and Fridays. The fastest format to test hooks with.</p>
+    </div>
+    <div class="card">
+      <span class="mono">Format 2 · Carousels</span>
+      <h4>Decision Layer Deep Dives</h4>
+      <p>6 to 9 slides in Noted branding. One framework per carousel. Cover slide uses the week's best-performing hook. Tuesdays.</p>
+    </div>
+    <div class="card">
+      <span class="mono">Format 3 · Cheatsheets</span>
+      <h4>Save-Worthy References</h4>
+      <p>Single dense image: "The Client Onboarding Decision Checklist" or "6 Decision Failures Mapped". Built for saves and shares. Thursdays, alternating.</p>
+    </div>
+    <div class="card">
+      <span class="mono">Format 4 · Image posts</span>
+      <h4>Product Proof Visuals</h4>
+      <p>Decision object screenshots, before-and-after chaos maps, beta user quote cards. Product-aware content from week 5 on. Thursdays, alternating.</p>
+    </div>
+  </div>
+  <div class="note"><strong>One design system for everything:</strong> cream canvas, indigo accent, serif headlines, mono labels. Every visual is recognizable as Noted before the logo is visible.</div>
+
+  <h3>Lead capture that fills the waitlist</h3>
+  <div class="note"><strong>The lead magnet:</strong> "The 6 Decision Failures That Kill Agency Retention." Comment DECISION to get it. Every downloader gets one qualifying question. Qualified people get offered a waitlist spot.</div>
+
+  <div class="band">
+    <span class="mono">Positioning guardrail</span>
+    <div class="serif-line">We never say all-in-one. We never compare to Taplio. We own <em>one word: decisions.</em></div>
+    <p>Comparison content commoditizes a category creator. Every post either names the pain, teaches the layer, or proves the product. Nothing else ships.</p>
+  </div>
+</div>
+
+<!-- TAB 6: PRICING -->
+<div class="panel" id="t6">
+  <span class="mono kicker">Tab 06 · Researched July 2026</span>
+  <div class="sec-head"><span class="sec-num serif">06</span><h2>Pricing strategy &amp; <em>psychology.</em></h2></div>
+  <p class="lede">The old pricing anchored against agency suites. The new pricing anchors against a no-brainer. Here is the market data, the psychology, and the numbers.</p>
+
+  <h3>What competitors actually charge</h3>
+  <table class="tbl">
+    <tr><th>Tool</th><th>Category</th><th>Entry price</th><th>Real working price</th><th>Model weakness</th></tr>
+    <tr><td><strong>Taplio</strong></td><td class="sm">LinkedIn content + AI</td><td>$39/mo</td><td>$65–69/mo, $199 Pro</td><td class="sm">Per account. AI locked above entry. Costs multiply per client.</td></tr>
+    <tr><td><strong>AuthoredUp</strong></td><td class="sm">LinkedIn writing + analytics</td><td>$19.95/mo</td><td>$19.95/mo</td><td class="sm">Solo creator only. No agency ops layer.</td></tr>
+    <tr><td><strong>Supergrow</strong></td><td class="sm">LinkedIn AI creator tool</td><td>$19/mo</td><td>$19/mo</td><td class="sm">Solo. No client management dimension.</td></tr>
+    <tr><td><strong>LinkedGood</strong></td><td class="sm">LinkedIn scheduling + approvals</td><td>$5/mo</td><td>$30/mo agency tier</td><td class="sm">Volume play. Shallow on agency depth.</td></tr>
+    <tr><td><strong>Planable</strong></td><td class="sm">Social approval workflow</td><td>$33–49/workspace</td><td>$165–245/mo at 5 clients</td><td class="sm">Per workspace. Every client is a new bill.</td></tr>
+    <tr><td><strong>Kontentino</strong></td><td class="sm">Agency approval suite</td><td>$59/mo</td><td>$95–140/mo for client approvals</td><td class="sm">Approvals gated to mid-tier. Analytics costs extra.</td></tr>
+    <tr><td><strong>Agorapulse</strong></td><td class="sm">Social suite</td><td>$79/user/mo</td><td>$158+/mo for 2 seats</td><td class="sm">Per seat. Teams scale painfully.</td></tr>
+  </table>
+
+  <h3>Why we dropped the old pricing</h3>
+  <p>$29/$79/$149 priced Noted like a proven suite. Noted is not proven yet. A pre-launch product cannot carry suite pricing against Kontentino's decade of reviews. The new pricing removes the decision friction entirely. It makes trying Noted cheaper than staying disorganized.</p>
+
+  <div class="decision">
+    <div class="d-top"><span class="tag indigo">Decision</span><span class="tag lav">Pricing</span><span class="tag ghost">Permanent</span></div>
+    <div class="d-body">Noted prices below every alternative's real working price. Anchored on clients managed, not seats.</div>
+    <div class="d-why">Logged by Malik Muzamil · Price is the wedge into the market. Depth is the moat that keeps them.</div>
+  </div>
+
+  <h3>The new pricing architecture</h3>
+  <div class="pricing">
+    <div class="price-card">
+      <span class="mono">Solo</span>
+      <div class="price serif">$17</div>
+      <div class="per">per month · up to 3 clients</div>
+      <ul>
+        <li>Unlimited decisions, always searchable</li>
+        <li>Week memory for every client</li>
+        <li>Post editor + one-click submission</li>
+        <li>Client approval portal</li>
+        <li>1 team member</li>
+      </ul>
+      <span class="founder">Founding 100: $12/mo locked forever</span>
+    </div>
+    <div class="price-card feature">
+      <span class="pop-badge">Most popular</span>
+      <span class="mono">Agency</span>
+      <div class="price serif">$47</div>
+      <div class="per">per month · up to 15 clients</div>
+      <ul>
+        <li>Everything in Solo</li>
+        <li>Full role set: writer, designer, strategist</li>
+        <li>AI Strategist + onboarding templates</li>
+        <li>Weekly Pulse dashboard</li>
+        <li>5 team members</li>
+      </ul>
+      <span class="founder">Founding 100: $33/mo locked forever</span>
+    </div>
+    <div class="price-card">
+      <span class="mono">Studio</span>
+      <div class="price serif">$97</div>
+      <div class="per">per month · unlimited clients</div>
+      <ul>
+        <li>Everything in Agency</li>
+        <li>Unlimited team members</li>
+        <li>White label client portal</li>
+        <li>Dedicated onboarding</li>
+        <li>Priority support + early features</li>
+      </ul>
+      <span class="founder">Founding 100: $67/mo locked forever</span>
+    </div>
+  </div>
+
+  <h3>The psychology behind every number</h3>
+  <ol class="steps">
+    <li><strong>Left-digit effect: $17 reads as "teens"</strong><span>The brain anchors on the first digit. $17 feels a category cheaper than $20. It also undercuts Supergrow ($19) and AuthoredUp ($19.95) while doing more.</span></li>
+    <li><strong>The $50 barrier: $47 stays under it</strong><span>$50 is a mental approval threshold for solo founders. $47 clears it without a second thought. It is also below Taplio's real entry of $65.</span></li>
+    <li><strong>Charm endings in 7 signal founder-led</strong><span>Prices ending in 7 read as direct and deliberate, not corporate. Consistent endings across tiers build pricing trust.</span></li>
+    <li><strong>Studio as the anchor, Agency as the choice</strong><span>$97 exists partly to make $47 feel safe and obvious. Classic center-stage effect. Most buyers pick the highlighted middle.</span></li>
+    <li><strong>Clean upgrade math</strong><span>Solo to Agency is under 3x for 5x the clients. Agency to Studio is roughly 2x for unlimited. Every jump feels like a deal.</span></li>
+    <li><strong>Value framing: cheaper than one lost client</strong><span>Average retainer is $1,000+ monthly. Studio at $97 costs under 10% of one saved client. The ROI story writes itself.</span></li>
+    <li><strong>Founding lock creates urgency without discounting</strong><span>Founding pricing is a permanent lock, never a sale. It rewards belief, not hesitation. It dies publicly at spot 100.</span></li>
+  </ol>
+
+  <h3>How each tier now wins its matchup</h3>
+  <div class="grid3">
+    <div class="card">
+      <span class="mono">Solo $17 vs creator tools $19–20</span>
+      <h4>Cheaper and deeper</h4>
+      <p>Same spend as a writing tool. But it manages 3 clients, approvals, and memory. The freelancer's first ops layer.</p>
+    </div>
+    <div class="card">
+      <span class="mono">Agency $47 vs Taplio $65+</span>
+      <h4>Under their real entry price</h4>
+      <p>Taplio charges $65+ per single account. Noted covers 15 clients and 5 teammates for $47 flat.</p>
+    </div>
+    <div class="card">
+      <span class="mono">Studio $97 vs suites $140–245</span>
+      <h4>Flat where they multiply</h4>
+      <p>Planable at 8 clients costs roughly $264 monthly. Kontentino gates approvals at $95+. Studio: $97, everything included.</p>
+    </div>
+  </div>
+
+  <h3>Pricing rules, carried forward</h3>
+  <ul class="flat">
+    <li>Never discount publicly. Founding pricing is a lock, not a sale. Extended trials over discounts.</li>
+    <li>Trial mirrors the value cycle: one full client week, minimum 7 days.</li>
+    <li>Founding pricing dies permanently at spot 100. Announce the countdown at 80.</li>
+    <li>Validate willingness-to-pay in the feedback calls using Van Westendorp's four questions.</li>
+    <li>Revisit tiers only after 6 months of retention data. Never mid-quarter.</li>
+  </ul>
+
+  <div class="note"><strong>The Van Westendorp questions for the calls:</strong> At what price is Noted too expensive? Expensive but worth considering? A bargain? So cheap you would doubt the quality? Thirty answers will confirm or correct these numbers before launch.</div>
+</div>
+
+<!-- TAB 7: METRICS + TIMELINE -->
+<div class="panel" id="t7">
+  <span class="mono kicker">Tab 07</span>
+  <div class="sec-head"><span class="sec-num serif">07</span><h2>Metrics &amp; <em>timeline.</em></h2></div>
+  <p class="lede">Vanity metrics get logged nowhere. These numbers decide whether each phase graduates.</p>
+
+  <h3>The scoreboard</h3>
+  <table class="tbl">
+    <tr><th>Metric</th><th>30-Day target</th><th>60-Day target</th><th>90-Day target</th></tr>
+    <tr class="hl"><td><strong>Waitlist members (scored 4+)</strong></td><td>25</td><td>50</td><td>75</td></tr>
+    <tr><td><strong>Outreach reply rate</strong></td><td>15%+</td><td>20%+</td><td>25%+ (warm referrals)</td></tr>
+    <tr><td><strong>Feedback calls completed</strong></td><td>8</td><td>18</td><td>30</td></tr>
+    <tr class="hl"><td><strong>Sean Ellis PMF score</strong></td><td>Baseline read</td><td>40%+ very disappointed</td><td>Sustained 40%+</td></tr>
+    <tr><td><strong>Brand account followers (ICP-fit)</strong></td><td>100</td><td>350</td><td>800</td></tr>
+    <tr><td><strong>Content engagement rate</strong></td><td>4%+</td><td>5%+</td><td>7%+</td></tr>
+    <tr><td><strong>Weekly update reply rate</strong></td><td>10%</td><td>15%</td><td>20%</td></tr>
+    <tr><td><strong>Beta activation (first decision logged)</strong></td><td>—</td><td>60% of invited</td><td>75% of invited</td></tr>
+    <tr><td><strong>Founding conversions at launch</strong></td><td>—</td><td>—</td><td>25+ paid (33%+ of the list)</td></tr>
+  </table>
+
+  <div class="note"><strong>The one metric that overrides all others:</strong> replies. A waitlist that replies is alive. Every asset gets designed to earn a reply, not an impression.</div>
+
+  <h3>The 90-day timeline</h3>
+  <div class="timeline">
+    <div class="trow"><div class="tw">Week 1–2</div><div class="tc"><strong>Foundation</strong><span>Score 150 prospect names. Write first 10 brand posts. Set up brand assets. Build the feedback log.</span></div></div>
+    <div class="trow"><div class="tw">Week 2–4</div><div class="tc"><strong>Pitch sprint</strong><span>Two-week outreach wave from Malik's profile. 15 personal pitches daily. Target: 25+ waitlist members.</span></div></div>
+    <div class="trow"><div class="tw">Week 3</div><div class="tc"><strong>Brand account goes live</strong><span>Launch with the queued 10 posts. Malik begins his weekly founder post.</span></div></div>
+    <div class="trow"><div class="tw">Week 4–6</div><div class="tc"><strong>Grow to 50 + feedback loop</strong><span>Referral asks and content leads push toward 50. Weekly build logs begin. First 8 founder calls done. Van Westendorp answers collected.</span></div></div>
+    <div class="trow"><div class="tw">Week 5–8</div><div class="tc"><strong>Cadence ramp + visuals</strong><span>3 then 4 brand posts weekly. First cheatsheets and product carousels ship. Lead magnet campaign runs. PMF survey at week 6.</span></div></div>
+    <div class="trow"><div class="tw">Week 8–10</div><div class="tc"><strong>Beta onboarding</strong><span>Waitlist gets staged access. Activation tracked. Case study #1 built from the best user.</span></div></div>
+    <div class="trow"><div class="tw">Week 10–13</div><div class="tc"><strong>Public launch</strong><span>Announce with case study #1. Waitlist at 75. Founding pricing countdown begins at spot 60. Convert 25+ to paid.</span></div></div>
+  </div>
+</div>
+
+<!-- TAB 8: RISKS -->
+<div class="panel" id="t8">
+  <span class="mono kicker">Tab 08</span>
+  <div class="sec-head"><span class="sec-num serif">08</span><h2>Risks &amp; <em>kill criteria.</em></h2></div>
+  <p class="lede">A plan without kill criteria is a hope. These are the honest tripwires.</p>
+
+  <table class="tbl">
+    <tr><th>Risk</th><th>Signal</th><th>Response</th></tr>
+    <tr><td><strong>Outreach falls flat</strong></td><td class="sm">Reply rate below 10% after 100 pitches</td><td class="sm">Stop. Rewrite the pitch around a different pain. Test 20 before resuming.</td></tr>
+    <tr><td><strong>Wrong 100</strong></td><td class="sm">Feedback calls reveal under 3 clients managed</td><td class="sm">Re-score the list. Replace poor fits with overflow candidates.</td></tr>
+    <tr><td><strong>Weak PMF signal</strong></td><td class="sm">Under 25% very disappointed at week 6</td><td class="sm">Freeze growth spend. Run 10 deep-dive calls. Rework the core loop first.</td></tr>
+    <tr><td><strong>Content attracts solopreneurs</strong></td><td class="sm">Comments come from creators, not agency owners</td><td class="sm">Sharpen hooks to multi-client pain. Add "if you manage 3+ clients" qualifiers.</td></tr>
+    <tr><td><strong>Price feels too cheap</strong></td><td class="sm">Van Westendorp answers cluster above our tiers</td><td class="sm">Good problem. Raise public tiers at launch. Founding locks stay honored.</td></tr>
+    <tr><td><strong>Founder bandwidth breaks</strong></td><td class="sm">Cadence slips two weeks running</td><td class="sm">Batch-write monthly. Drop to 3 brand posts weekly before dropping quality.</td></tr>
+    <tr><td><strong>Competitor copies the layer</strong></td><td class="sm">A scheduler ships "decisions" features</td><td class="sm">Deepen, never react. Ship vocabulary, case studies, and community faster.</td></tr>
+  </table>
+
+  <div class="decision">
+    <div class="d-top"><span class="tag indigo">Decision</span><span class="tag lav">Principle</span><span class="tag ghost">Permanent</span></div>
+    <div class="d-body">No paid ads until 100 believers and 40% PMF. Not one dollar.</div>
+    <div class="d-why">Logged by Malik Muzamil · Ads amplify what exists. Amplifying an unvalidated product burns money and positioning.</div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <div class="serif">noted.</div>
+    <span class="mono">Go-To-Market Plan · V2.0 · Prepared July 2026 · Confidential</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.tab-btn');
+  var panels=document.querySelectorAll('.panel');
+  function activate(id){
+    btns.forEach(function(b){b.classList.toggle('active',b.dataset.tab===id)});
+    panels.forEach(function(p){p.classList.toggle('active',p.id===id)});
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      activate(b.dataset.tab);
+      history.replaceState(null,'','#'+b.dataset.tab);
+    });
+  });
+  var h=location.hash.replace('#','');
+  if(h && document.getElementById(h)) activate(h);
+})();
+</script>
+
+</body>
+</html>
